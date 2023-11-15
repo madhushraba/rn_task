@@ -1,4 +1,3 @@
-// EmployeeList.js
 import React, { useState, useEffect } from "react";
 import {
   View,
@@ -7,13 +6,12 @@ import {
   Button,
   StyleSheet,
 } from "react-native";
-import { withNavigation } from "react-navigation"; // Import withNavigation
+import { withNavigation } from "react-navigation";  
 
 import EmployeeCard from "./EmployeeCard";
 import AddEmployee from "./AddEmployee";
 
 const EmployeeList = ({ navigation }) => {
-  // Use withNavigation HOC to access the navigation prop
   const [employees, setEmployees] = useState([]);
   const [isAddEmployeeModalVisible, setIsAddEmployeeModalVisible] =
     useState(false);
@@ -104,4 +102,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default withNavigation(EmployeeList); // Wrap with withNavigation
+export default withNavigation(EmployeeList);

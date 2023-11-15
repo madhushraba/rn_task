@@ -1,17 +1,6 @@
-// EmployeeCard.js
 import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 
-// const EmployeeCard = ({ employee }) => {
-//   return (
-//     <View style={[styles.card, { backgroundColor: "#FFF1F1" }]}>
-//       <Text style={styles.text}>Name: {employee.name}</Text>
-//       <Text style={styles.text}>Email: {employee.email}</Text>
-//       <Text style={styles.text}>Phone: {employee.phone}</Text>
-//       <Text style={styles.text}>Manager: {employee.parentId}</Text>
-//     </View>
-//   );
-// };
 
 const EmployeeCard = ({ employee, userIdToNameMap }) => {
   const { name, email, phone, parentId, background } = employee;

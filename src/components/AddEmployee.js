@@ -1,4 +1,3 @@
-// AddEmployee.js
 import React, { useState } from "react";
 import { View, Text, TextInput, Button, StyleSheet } from "react-native";
 
@@ -15,13 +14,8 @@ const AddEmployee = ({ onAddEmployee, onCancel }) => {
       email,
       phone,
       parent,
-      background: "#FFC0CB", // Default background color for the new employee
     };
-
-    // Callback to parent component to add the employee to the list
     onAddEmployee(newEmployee);
-
-    // Reset form fields
     setName("");
     setEmail("");
     setPhone("");
@@ -80,8 +74,7 @@ const styles = StyleSheet.create({
   formbody: {
     display: "flex",
     justifyContent: "center",
-    alignContent: "center",
-    // margin: "auto",
+    alignContent: "center", 
     marginBottom: 240,
   },
   formContainer: {
