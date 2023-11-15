@@ -1,41 +1,61 @@
 // EmployeeList.js
-import React, { useState, useEffect } from 'react';
-import { View, FlatList, TouchableOpacity, Button, StyleSheet } from 'react-native';
-import axios from 'axios';
-import { withNavigation } from 'react-navigation';
-import EmployeeCard from './EmployeeCard';
-import AddEmployee from './AddEmployee';
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  FlatList,
+  TouchableOpacity,
+  Button,
+  StyleSheet,
+} from "react-native";
+import { withNavigation } from "react-navigation"; // Import withNavigation
+
+import EmployeeCard from "./EmployeeCard";
+import AddEmployee from "./AddEmployee";
 
 const EmployeeList = ({ navigation }) => {
+  // Use withNavigation HOC to access the navigation prop
   const [employees, setEmployees] = useState([]);
-  const [isAddEmployeeModalVisible, setIsAddEmployeeModalVisible] = useState(false);
+  const [isAddEmployeeModalVisible, setIsAddEmployeeModalVisible] =
+    useState(false);
+  const [userIdToNameMap, setUserIdToNameMap] = useState({});
 
   useEffect(() => {
-    // Fetch data from the API
-    axios
-      .get('https://mocki.io/v1/3a4b56bd-ad05-4b12-a181-1eb9a4f5ac8d')
-      .then((response) => setEmployees(response.data))
-      .catch((error) => console.error('Error fetching data:', error));
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "https://mocki.io/v1/3a4b56bd-ad05-4b12-a181-1eb9a4f5ac8d"
+        );
+        const data = await response.json();
+        setEmployees(data);
+
+        const map = {};
+        data.forEach((user) => {
+          map[user.id] = user.name;
+        });
+
+        setUserIdToNameMap(map);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
   }, []);
 
   const handleCardPress = (employee) => {
-    navigation.navigate('Details', { employee });
+    navigation.navigate("Details", { employee });
   };
 
   const handleAddEmployee = (newEmployee) => {
-    // Update the local list with the new employee
     setEmployees((prevEmployees) => [...prevEmployees, newEmployee]);
-    // Hide the modal
     setIsAddEmployeeModalVisible(false);
   };
 
   const handleAddEmployeePress = () => {
-    // Show the modal
     setIsAddEmployeeModalVisible(true);
   };
 
   const handleCancelAddEmployee = () => {
-    // Hide the modal
     setIsAddEmployeeModalVisible(false);
   };
 
@@ -46,13 +66,17 @@ const EmployeeList = ({ navigation }) => {
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <TouchableOpacity onPress={() => handleCardPress(item)}>
-            <EmployeeCard employee={item} />
+            <EmployeeCard employee={item} userIdToNameMap={userIdToNameMap} />
           </TouchableOpacity>
         )}
       />
 
       <View style={styles.addButtonContainer}>
-        <Button title="Add Employee" onPress={handleAddEmployeePress} color="#9370DB" />
+        <Button
+          title="Add Employee"
+          onPress={handleAddEmployeePress}
+          color="#9370DB"
+        />
       </View>
 
       {isAddEmployeeModalVisible && (
@@ -70,13 +94,14 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   addButtonContainer: {
-    position: 'absolute',
-    backgroundColor: '#860A35',  
-    borderRadius:12,
-    padding:5,
+    position: "absolute",
+    backgroundColor: "#860A35",
+    color: "white",
+    borderRadius: 12,
+    padding: 5,
     top: 16,
     right: 16,
   },
 });
 
-export default withNavigation(EmployeeList);
+export default withNavigation(EmployeeList); // Wrap with withNavigation
