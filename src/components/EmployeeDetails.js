@@ -1,18 +1,29 @@
 // EmployeeDetails.js
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 
 const EmployeeDetails = ({ navigation }) => {
-    const employee = navigation.getParam('employee', {});
+  const employee = navigation.getParam("employee", {});
 
   return (
-    <View>
-      <Text>Name: {employee.name}</Text>
-      <Text>Email: {employee.email}</Text>
-      <Text>Phone: {employee.phone}</Text>
-      <Text>Manager: {employee.parentId}</Text>
+    <View style={styles.container}>
+      <Text style={styles.text}>Name: {employee.name}</Text>
+      <Text style={styles.text}>Email: {employee.email}</Text>
+      <Text style={styles.text}>Phone: {employee.phone}</Text>
+      <Text style={styles.text}>Manager: {employee.parentId}</Text>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 16,
+    margin: 16,
+  },
+  text: {
+    fontSize: 16,
+    marginBottom: 8,
+  },
+});
 
 export default EmployeeDetails;
